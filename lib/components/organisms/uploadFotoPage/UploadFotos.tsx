@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from "react"
 import { View, Text, Dimensions, TouchableOpacity } from "react-native"
-import { ImageCard } from "../molecules/ImageCard"
+import { ImageCard } from "../../molecules/ImageCard"
 import { styleSheet } from "lib/styles"
-import { CustomScrollView } from "../molecules/ScrollView"
+import { CustomScrollView } from "../../molecules/ScrollView"
 import { UploadFotoCard } from "./UploadFotoCard"
-import { SvgIcon } from "../molecules/SvgIcon"
+import { SvgIcon } from "../../molecules/SvgIcon"
 
 interface UploadPhotosProps {
   usableImages: string[]

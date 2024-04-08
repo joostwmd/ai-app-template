@@ -13,7 +13,7 @@ import Animated, {
 } from "react-native-reanimated"
 import { useRouter } from "expo-router"
 import { useEffect, useRef, useState } from "react"
-import { ImageCard } from "../molecules/ImageCard"
+import { ImageCard } from "../../molecules/ImageCard"
 import { JobRecord } from "@utils/user/types"
 import { useUser } from "@utils/user/UserContext"
 

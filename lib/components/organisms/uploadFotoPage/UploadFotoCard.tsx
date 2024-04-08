@@ -1,6 +1,6 @@
 import React from "react"
 import { View, StyleSheet, TouchableOpacity } from "react-native"
-import { SvgIcon } from "../molecules/SvgIcon"
+import { SvgIcon } from "../../molecules/SvgIcon"
 
 type UploadFotoCardsProps = {
   width: number
