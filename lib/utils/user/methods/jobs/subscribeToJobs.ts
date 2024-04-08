@@ -16,6 +16,11 @@ export const subscribeToJobsCollection = (
   const jobsCollection = collection(userDoc, "jobs")
 
   const unsubscribe = onSnapshot(jobsCollection, async (jobsSnapshot) => {
+    const changes = jobsSnapshot.docChanges()
+    changes.forEach((change) => {
+      console.log(`Job ${change.type}:`, change.doc.id, change.doc.data())
+    })
+
     if (!jobsSnapshot.empty) {
       const jobs: JobRecord[] = []
       for (let job of jobsSnapshot.docs) {

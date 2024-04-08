@@ -9,7 +9,7 @@ import { createNewUser } from "./methods/user/createUser"
 import { getImagesUrls } from "./methods/images/getImages"
 import {
   GetJobImages,
-  GetJobsUploadedImage,
+  GetJobsImageByFolder,
   UserContextValue,
   UserRecord,
 } from "./types"
@@ -61,22 +61,35 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   //     }
   //   }, [user])
 
-  async function createNewJobs({
-    userId,
-    images,
-  }: {
-    userId: string
-    images: string[]
-  }) {
+  async function createNewJobs(images: string[]) {
+    if (!authUser) {
+      throw new Error("User not authenticated")
+    }
     for (let image of images) {
-      console.log("Creating new job for user", userId, "with image", image)
+      console.log(
+        "Creating new job for user",
+        authUser.uid,
+        "with image",
+        image
+      )
 
-      const newJobDoc = await createJob({ db, userId })
-      await uploadImage({ storage, userId, jobId: newJobDoc.id, image })
+      const newJobDoc = await createJob({ db, userId: authUser.uid })
+      await uploadImage({
+        storage,
+        userId: authUser.uid,
+        jobId: newJobDoc.id,
+        image,
+      })
     }
   }
 
-  async function getJobsUploadedImage(jobId: string): GetJobsUploadedImage {
+  async function getJobsImageByFolder({
+    jobId,
+    folder,
+  }: {
+    jobId: string
+    folder: "uploaded" | "generated"
+  }): GetJobsImageByFolder {
     if (!authUser) {
       throw new Error("User not authenticated")
     }
@@ -85,10 +98,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       storage,
       userId: authUser.uid,
       jobId,
-      folder: "uploaded",
+      folder: folder,
     })
 
-    return { uploaded: uploadedImages[0] }
+    return { path: uploadedImages[0] }
   }
 
   async function getJobImages(jobId: string): GetJobImages {
@@ -124,7 +137,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         user,
         userContextLoaded: loaded,
         createNewJobs,
-        getJobsUploadedImage,
+        getJobsImageByFolder,
         getJobImages,
       }}
     >

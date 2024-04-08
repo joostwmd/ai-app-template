@@ -1,8 +1,11 @@
 export interface UserContextValue {
   user: UserRecord
   userContextLoaded: boolean
-  createNewJobs: (props: { userId: string; images: string[] }) => Promise<void>
-  getJobsUploadedImage: (jobId: string) => GetJobsUploadedImage
+  createNewJobs: (images: string[]) => Promise<void>
+  getJobsImageByFolder: (props: {
+    jobId: string
+    folder: "generated" | "uploaded"
+  }) => GetJobsImageByFolder
   getJobImages: (jobId: string) => GetJobImages
 }
 
@@ -19,4 +22,4 @@ export interface UserRecord {
 
 export type GetJobImages = Promise<{ uploaded: string; generated: string }>
 
-export type GetJobsUploadedImage = Promise<{ uploaded: string }>
+export type GetJobsImageByFolder = Promise<{ path: string }>

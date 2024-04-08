@@ -20,10 +20,10 @@ function AppContent() {
     ...FontAwesome.font,
   })
 
-  if (!fontsLoaded) {
-    console.log("Fonts not loaded")
-    return null
-  }
+  // if (!fontsLoaded) {
+  //   console.log("Fonts not loaded")
+  //   return null
+  // }
 
   return (
     <Stack

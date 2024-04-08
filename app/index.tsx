@@ -1,121 +1,49 @@
-import * as ImagePicker from "expo-image-picker"
-import * as FileSystem from "expo-file-system"
-import FaceDetection, {
-  FaceDetectorContourMode,
-  FaceDetectorLandmarkMode,
-  FaceContourType,
-  FaceLandmarkType,
-} from "react-native-face-detection"
-import { View, Text, Button, StyleSheet } from "react-native"
-import { useRouter } from "expo-router"
+import { faceDetection } from "@utils/uploadFoto/faceDetection"
+import { pickImages } from "@utils/uploadFoto/pickImage"
+import { processFaceDetectionResult } from "@utils/uploadFoto/processFaceDetectionResult"
+import { useUser } from "@utils/user/UserContext"
+import { UploadFotosPage } from "lib/components/pages/UploadFotosPage"
+import { useState } from "react"
 
 const Page: React.FC = () => {
-  const pickImage = async () => {
-    if (!ImagePicker.getMediaLibraryPermissionsAsync) {
-      console.log(
-        "No permissions request is necessary for launching the image library"
-      )
-    }
+  const { createNewJobs } = useUser()
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      aspect: [4, 3],
-      quality: 1,
-      allowsMultipleSelection: true,
-    })
+  const [usableImages, setUsableImages] = useState<string[]>([])
+  async function handlePickImage() {
+    const pickedImages = await pickImages()
 
-    if (!result.canceled) {
-      const newUsableImages: { path: string; id: string }[] = []
-
-      for (let asset of result.assets) {
-        const test = await processFaces(asset.uri)
-        console.log("face recognition test", test)
-
-        // Get file size
-        const fileInfo = await FileSystem.getInfoAsync(asset.uri)
-        console.log("File size:", fileInfo)
-        console.log("File size:", fileInfo.size)
+    if (pickedImages) {
+      for (const image of pickedImages) {
+        console.log(image)
+        const faceDetectionResult = await faceDetection(image.uri)
+        const { usable } = processFaceDetectionResult(faceDetectionResult)
+        if (usable) {
+          setUsableImages((prev) => [...prev, image.uri])
+        }
       }
-    }
-
-    return
-  }
-
-  async function processFaces(imagePath: string) {
-    try {
-      console.log("Processing faces in image: ", imagePath)
-      const options = {
-        landmarkMode: FaceDetectorLandmarkMode.ALL,
-        contourMode: FaceDetectorContourMode.ALL,
-      }
-
-      const faces = await FaceDetection.processImage(imagePath, options)
-
-      faces.forEach((face) => {
-        console.log("Head rotation on X axis: ", face.headEulerAngleX)
-        console.log("Head rotation on Y axis: ", face.headEulerAngleY)
-        console.log("Head rotation on Z axis: ", face.headEulerAngleZ)
-
-        console.log("Left eye open probability: ", face.leftEyeOpenProbability)
-        console.log(
-          "Right eye open probability: ",
-          face.rightEyeOpenProbability
-        )
-        console.log("Smiling probability: ", face.smilingProbability)
-
-        face.faceContours.forEach((contour) => {
-          if (contour.type === FaceContourType.FACE) {
-            console.log("Face outline points: ", contour.points)
-          }
-        })
-
-        face.landmarks.forEach((landmark) => {
-          if (landmark.type === FaceLandmarkType.LEFT_EYE) {
-            console.log("Left eye outline points: ", landmark.points)
-          } else if (landmark.type === FaceLandmarkType.RIGHT_EYE) {
-            console.log("Right eye outline points: ", landmark.points)
-          }
-        })
-      })
-    } catch (error) {
-      console.error("Error processing faces in image: ", error)
     }
   }
 
-  const router = useRouter()
+  async function handleRemoveImage(index: number) {
+    setUsableImages((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  async function handleGenerateImages() {
+    console.log("generate")
+    if (usableImages.length > 0) {
+      console.log("creating new jobs")
+      await createNewJobs(usableImages)
+    }
+  }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Hello World</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
-
-        <Button title="Test" onPress={() => pickImage()} />
-      </View>
-    </View>
+    <UploadFotosPage
+      usableImages={usableImages}
+      pickImage={handlePickImage}
+      removeImage={handleRemoveImage}
+      generateImages={handleGenerateImages}
+    />
   )
 }
 
 export default Page
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
-  },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
-  },
-})
