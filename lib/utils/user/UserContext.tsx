@@ -7,27 +7,12 @@ import { subscribeToUserDocument } from "./methods/user/subscribeToUser"
 import { subscribeToJobsCollection } from "./methods/jobs/subscribeToJobs"
 import { createNewUser } from "./methods/user/createUser"
 import { getImagesUrls } from "./methods/images/getImages"
-
-interface UserRecord {
-  id: string | null
-  tokens: number | null
-  jobs: JobRecord[] | null
-}
-
-interface JobRecord {
-  id: string
-  finished: boolean
-}
-
-interface UserContextValue {
-  user: UserRecord
-  userContextLoaded: boolean
-  createNewJobs: (props: { userId: string; images: string[] }) => Promise<void>
-  getJobsUploadedImage: (jobId: string) => Promise<string>
-  getJobImages: (
-    jobId: string
-  ) => Promise<{ uploaded: string; generated: string }>
-}
+import {
+  GetJobImages,
+  GetJobsUploadedImage,
+  UserContextValue,
+  UserRecord,
+} from "./types"
 
 const UserContext = createContext<UserContextValue | null>(null)
 
@@ -91,9 +76,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  async function getJobsUploadedImage(jobId: string): Promise<string> {
+  async function getJobsUploadedImage(jobId: string): GetJobsUploadedImage {
     if (!authUser) {
-      return
+      throw new Error("User not authenticated")
     }
 
     const uploadedImages = await getImagesUrls({
@@ -103,14 +88,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       folder: "uploaded",
     })
 
-    return uploadedImages[0]
+    return { uploaded: uploadedImages[0] }
   }
 
-  async function getJobImages(
-    jobId: string
-  ): Promise<{ uploaded: string; generated: string }> {
+  async function getJobImages(jobId: string): GetJobImages {
     if (!authUser) {
-      return
+      throw new Error("User not authenticated")
     }
 
     const uploadedImages = await getImagesUrls({

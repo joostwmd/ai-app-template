@@ -1,3 +1,4 @@
+import { UserRecord } from "@utils/user/types"
 import { Firestore, collection, doc, onSnapshot } from "firebase/firestore"
 import { Dispatch, SetStateAction } from "react"
 
@@ -9,7 +10,7 @@ interface JobRecord {
 export const subscribeToJobsCollection = (
   db: Firestore,
   userId: string,
-  setUser: Dispatch<SetStateAction<any>>
+  setUser: Dispatch<SetStateAction<UserRecord>>
 ) => {
   const userDoc = doc(db, "users", userId)
   const jobsCollection = collection(userDoc, "jobs")
