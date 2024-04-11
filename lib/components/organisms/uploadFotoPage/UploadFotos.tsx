@@ -5,6 +5,7 @@ import { styleSheet } from "lib/styles"
 import { CustomScrollView } from "../../molecules/ScrollView"
 import { UploadFotoCard } from "./UploadFotoCard"
 import { SvgIcon } from "../../molecules/SvgIcon"
+import Animated, { Easing, LinearTransition } from "react-native-reanimated"
 
 interface UploadPhotosProps {
   usableImages: string[]
@@ -22,6 +23,7 @@ export const UploadFotos: FC<UploadPhotosProps> = ({
   useEffect(() => {
     console.log("tesssstt", usableImages)
   }, [usableImages])
+
   return (
     <>
       <View style={{ width: "100%", marginTop: 12 }}>
@@ -42,37 +44,45 @@ export const UploadFotos: FC<UploadPhotosProps> = ({
         }}
       >
         <CustomScrollView scrollDirection="left" autoScrollToEnd={true}>
-          {usableImages.map((image, index: number) => (
-            <View
-              style={{
-                marginLeft: 20,
-                justifyContent: "center",
-              }}
-              key={index}
-            >
-              <ImageCard
-                width={112 * 2}
-                height={164 * 2}
-                imageLink={`${image}`}
-                childrenStyle={{
-                  position: "absolute",
-                  top: 4,
-                  right: 4,
-                }}
+          {usableImages.map((image, index) => {
+            return (
+              <Animated.View
+                layout={LinearTransition.duration(500)}
+                style={[
+                  {
+                    marginLeft: 20,
+                    justifyContent: "center",
+                  },
+                ]}
+                key={index}
               >
-                <TouchableOpacity onPress={() => removeImage(index)}>
-                  <SvgIcon icon="closeCircle" />
-                </TouchableOpacity>
-              </ImageCard>
-            </View>
-          ))}
-          <View style={{ marginLeft: 20, justifyContent: "center" }}>
+                <ImageCard
+                  width={112 * 2}
+                  height={164 * 2}
+                  imageLink={`${image}`}
+                  childrenStyle={{
+                    position: "absolute",
+                    top: 4,
+                    right: 4,
+                  }}
+                >
+                  <TouchableOpacity onPress={() => removeImage(index)}>
+                    <SvgIcon icon="closeCircle" />
+                  </TouchableOpacity>
+                </ImageCard>
+              </Animated.View>
+            )
+          })}
+          <Animated.View
+            layout={LinearTransition.duration(500)}
+            style={{ marginLeft: 20, justifyContent: "center" }}
+          >
             <UploadFotoCard
               width={112 * 2}
               height={164 * 2}
               pickImage={pickImage}
             />
-          </View>
+          </Animated.View>
         </CustomScrollView>
       </View>
     </>

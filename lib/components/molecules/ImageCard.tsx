@@ -55,7 +55,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
         <ShimmerPlaceholder
           width={width}
           height={height}
-          style={{ borderRadius: 12 }}
+          style={{ borderRadius: 12, opacity: 0.5 }}
         />
       )}
       {imageLink && (

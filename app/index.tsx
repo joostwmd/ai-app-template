@@ -2,8 +2,13 @@ import { faceDetection } from "@utils/uploadFoto/faceDetection"
 import { pickImages } from "@utils/uploadFoto/pickImage"
 import { processFaceDetectionResult } from "@utils/uploadFoto/processFaceDetectionResult"
 import { useUser } from "@utils/user/UserContext"
+import { UploadFotos } from "lib/components/organisms/uploadFotoPage/UploadFotos"
+import { BadFotosExample } from "lib/components/organisms/uploadFotoPage/fotoExamples/BadFotos"
+import { GoodFotosExample } from "lib/components/organisms/uploadFotoPage/fotoExamples/GoodFotos"
 import { UploadFotosPage } from "lib/components/pages/UploadFotosPage"
+import { styleSheet } from "lib/styles"
 import { useState } from "react"
+import { Button, ScrollView } from "react-native"
 
 const Page: React.FC = () => {
   const { createNewJobs } = useUser()
@@ -37,12 +42,18 @@ const Page: React.FC = () => {
   }
 
   return (
-    <UploadFotosPage
-      usableImages={usableImages}
-      pickImage={handlePickImage}
-      removeImage={handleRemoveImage}
-      generateImages={handleGenerateImages}
-    />
+    <>
+      <ScrollView contentContainerStyle={styleSheet.screenContainer}>
+        <GoodFotosExample />
+        <BadFotosExample />
+        <UploadFotos
+          usableImages={usableImages}
+          pickImage={handlePickImage}
+          removeImage={handleRemoveImage}
+        />
+        <Button onPress={handleGenerateImages} title="generate" />
+      </ScrollView>
+    </>
   )
 }
 

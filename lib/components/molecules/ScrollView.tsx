@@ -16,17 +16,20 @@ export const CustomScrollView: React.FC<CustomScrollViewProps> = ({
   ...scrollViewProps
 }) => {
   const scrollViewRef = useRef<ScrollView>(null)
-  const [contentWidth, setContentWidth] = useState(0)
-
   const { width } = Dimensions.get("window")
+  const flatChildren = React.Children.toArray(children).flat().filter(Boolean)
 
   return (
     <ScrollView
       style={{ width: width }}
       ref={scrollViewRef}
+      contentContainerStyle={{
+        width: flatChildren.length === 1 ? "100%" : undefined,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
       horizontal
       showsHorizontalScrollIndicator={false}
-      onContentSizeChange={(contentWidth) => setContentWidth(contentWidth)}
       {...scrollViewProps}
     >
       {children}

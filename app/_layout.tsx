@@ -4,6 +4,8 @@ import { SplashScreen, Stack } from "expo-router"
 import { useEffect, useState } from "react"
 import { FirebaseProvider, useFirebase } from "@utils/firebase/FirebaseContext"
 import { UserProvider, useUser } from "@utils/user/UserContext"
+import { StatusBar } from "expo-status-bar"
+import { SafeAreaView } from "react-native"
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -20,18 +22,28 @@ function AppContent() {
     ...FontAwesome.font,
   })
 
+  useEffect(() => {
+    console.log("Fonts loaded: ", fontsLoaded)
+    if (fontsLoaded) {
+      SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded])
+
   // if (!fontsLoaded) {
   //   console.log("Fonts not loaded")
   //   return null
   // }
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: "#000" },
-      }}
-    ></Stack>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
+      <StatusBar style="light" />
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: "#000" },
+        }}
+      ></Stack>
+    </SafeAreaView>
   )
 }
 

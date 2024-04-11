@@ -44,7 +44,8 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
         persistence: getReactNativePersistence(ReactNativeAsyncStorage),
       })
       db = initializeFirestore(app, {
-        experimentalForceLongPolling: true,
+        //experiment
+        experimentalForceLongPolling: false,
       })
       storage = getStorage(app)
     } else {
