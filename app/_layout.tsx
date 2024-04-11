@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { FirebaseProvider, useFirebase } from "@utils/firebase/FirebaseContext"
 import { UserProvider, useUser } from "@utils/user/UserContext"
 import { StatusBar } from "expo-status-bar"
-import { SafeAreaView } from "react-native"
+import { View } from "react-native"
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -35,7 +35,7 @@ function AppContent() {
   // }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
+    <View style={{ flex: 1, backgroundColor: "#000" }}>
       <StatusBar style="light" />
       <Stack
         screenOptions={{
@@ -43,7 +43,7 @@ function AppContent() {
           contentStyle: { backgroundColor: "#000" },
         }}
       ></Stack>
-    </SafeAreaView>
+    </View>
   )
 }
 

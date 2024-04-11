@@ -1,59 +1,36 @@
-import { faceDetection } from "@utils/uploadFoto/faceDetection"
-import { pickImages } from "@utils/uploadFoto/pickImage"
-import { processFaceDetectionResult } from "@utils/uploadFoto/processFaceDetectionResult"
-import { useUser } from "@utils/user/UserContext"
-import { UploadFotos } from "lib/components/organisms/uploadFotoPage/UploadFotos"
-import { BadFotosExample } from "lib/components/organisms/uploadFotoPage/fotoExamples/BadFotos"
-import { GoodFotosExample } from "lib/components/organisms/uploadFotoPage/fotoExamples/GoodFotos"
-import { UploadFotosPage } from "lib/components/pages/UploadFotosPage"
-import { styleSheet } from "lib/styles"
+import { useRouter } from "expo-router"
+import { BeforeAndAfterSlider } from "lib/components/molecules/BeforeAndAfterSlider"
 import { useState } from "react"
-import { Button, ScrollView } from "react-native"
+import { Button, Dimensions, View, Image } from "react-native"
 
 const Page: React.FC = () => {
-  const { createNewJobs } = useUser()
-
-  const [usableImages, setUsableImages] = useState<string[]>([])
-  async function handlePickImage() {
-    const pickedImages = await pickImages()
-
-    if (pickedImages) {
-      for (const image of pickedImages) {
-        console.log(image)
-        const faceDetectionResult = await faceDetection(image.uri)
-        const { usable } = processFaceDetectionResult(faceDetectionResult)
-        if (usable) {
-          setUsableImages((prev) => [...prev, image.uri])
-        }
-      }
-    }
-  }
-
-  async function handleRemoveImage(index: number) {
-    setUsableImages((prev) => prev.filter((_, i) => i !== index))
-  }
-
-  async function handleGenerateImages() {
-    console.log("generate")
-    if (usableImages.length > 0) {
-      console.log("creating new jobs")
-      await createNewJobs(usableImages)
-    }
-  }
+  const router = useRouter()
+  const { width, height } = Dimensions.get("window")
 
   return (
-    <>
-      <ScrollView contentContainerStyle={styleSheet.screenContainer}>
-        <GoodFotosExample />
-        <BadFotosExample />
-        <UploadFotos
-          usableImages={usableImages}
-          pickImage={handlePickImage}
-          removeImage={handleRemoveImage}
-        />
-        <Button onPress={handleGenerateImages} title="generate" />
-      </ScrollView>
-    </>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <BeforeAndAfterSlider
+        before={
+          <Image
+            source={{
+              uri: "https://firebasestorage.googleapis.com/v0/b/milanlaser-fcb24.appspot.com/o/omaha_bw.jpg?alt=media&token=9864378d-74d9-4579-830d-a56e50dc017d",
+            }}
+            style={{ width, height }}
+          />
+        }
+        after={
+          <Image
+            source={{
+              uri: "https://firebasestorage.googleapis.com/v0/b/milanlaser-fcb24.appspot.com/o/omaha_color.jpg?alt=media&token=7b3c5be6-ee90-40ec-9f1c-4b52ce655322",
+            }}
+            style={{ width, height }}
+          />
+        }
+        width={width}
+        height={height}
+      />
+      <Button onPress={() => router.push("/new-job/")} title="press to play" />
+    </View>
   )
 }
 
