@@ -20,11 +20,11 @@
         "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos.",
         "LSApplicationQueriesSchemes": ["instagram-stories"]
       },
-      "bundleIdentifier": "com.joostwmd.videogame-char-ai"
+      "bundleIdentifier": "com.joostwmd.ai-app-template"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.CAMERA"]
@@ -32,7 +32,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-router",
