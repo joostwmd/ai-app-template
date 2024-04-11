@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { View, ScrollView } from "react-native"
 import Compare, {
   Before,
@@ -43,6 +43,7 @@ export const BeforeAndAfterSlider: React.FC<BeforeAndAfterSliderProps> = ({
               left: 24,
               backgroundColor: "#fff",
               opacity: 0.6,
+              zIndex: 10,
             }}
           ></View>
           <View
