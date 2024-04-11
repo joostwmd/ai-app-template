@@ -29,7 +29,7 @@ const StartButton: React.FC = () => {
         }}
       >
         <TouchableOpacity
-          onPress={() => router.push("/new-job/")}
+          onPress={() => router.push("/jobs/")}
           style={{
             position: "absolute",
             bottom: 44,

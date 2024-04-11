@@ -29,7 +29,7 @@ export function JobCard({ job }: JobCardProps) {
   const router = useRouter()
   function gotoWalk(id: string) {
     console.log("gotoWalk")
-    //router.push(`/job/${id}`)
+    router.push(`/job/${id}`)
   }
 
   const animation = useSharedValue(1)
