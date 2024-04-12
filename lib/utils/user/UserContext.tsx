@@ -62,6 +62,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   //   }, [user])
 
   async function createNewJobs(images: string[]) {
+    console.log("images", images)
     if (!authUser) {
       throw new Error("User not authenticated")
     }

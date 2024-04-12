@@ -2,6 +2,7 @@ import { faceDetection } from "@utils/uploadFoto/faceDetection"
 import { pickImages } from "@utils/uploadFoto/pickImage"
 import { processFaceDetectionResult } from "@utils/uploadFoto/processFaceDetectionResult"
 import { useUser } from "@utils/user/UserContext"
+import { GenerateButton } from "lib/components/organisms/uploadFotoPage/GenerateButton"
 import { UploadFotos } from "lib/components/organisms/uploadFotoPage/UploadFotos"
 import { BadFotosExample } from "lib/components/organisms/uploadFotoPage/fotoExamples/BadFotos"
 import { GoodFotosExample } from "lib/components/organisms/uploadFotoPage/fotoExamples/GoodFotos"
@@ -50,8 +51,8 @@ const Page: React.FC = () => {
           pickImage={handlePickImage}
           removeImage={handleRemoveImage}
         />
-        <Button onPress={handleGenerateImages} title="generate" />
       </ScrollView>
+      <GenerateButton onPress={handleGenerateImages} />
     </>
   )
 }

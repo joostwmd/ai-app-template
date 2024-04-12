@@ -55,8 +55,6 @@ export function JobCard({ job }: JobCardProps) {
       setImageLink(image.path)
 
       if (prevFinishedRef.current !== job.finished) {
-        console.log("job finished state updated")
-
         animation.value = withTiming(0, { duration: 420 }, () => {
           animation.value = withTiming(1, { duration: 420 })
         })

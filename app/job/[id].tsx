@@ -1,36 +1,37 @@
 import React, { useState, useEffect, useRef } from "react"
 import { View, Dimensions, Animated, Text } from "react-native"
-import { useFirebase } from "@utils/firebase/FirebaseContext"
 import { useUser } from "@utils/user/UserContext"
 
 import { useLocalSearchParams } from "expo-router"
 import { ImageCard } from "lib/components/molecules/ImageCard"
+import { BeforeAndAfterSlider } from "lib/components/molecules/BeforeAndAfterSlider"
+import { BeforeAndAfter } from "lib/components/organisms/singleJobPage/BeforeAndAfter"
+import { GenerateButton } from "lib/components/organisms/uploadFotoPage/GenerateButton"
+import { BottomGradient } from "lib/components/molecules/BottomGradient"
+import { DownloadButton } from "lib/components/organisms/singleJobPage/DowloadButton"
+import { ShareButton } from "lib/components/organisms/singleJobPage/ShareButton"
 
 const Page: React.FC = () => {
   const local = useLocalSearchParams()
   const id: string = local.id as unknown as string
-  const { width: screenWidth, height: screenHeight } = Dimensions.get("window")
   const [loading, setLoading] = useState<boolean>(true)
-  const [generatedImage, setGeneratedImage] = useState<string>()
-  const { storage } = useFirebase()
-  const { user } = useUser()
+  const { getJobImages } = useUser()
+  const [images, setImages] = useState<{
+    uploaded: string
+    generated: string
+  } | null>(null)
+  const { width, height } = Dimensions.get("window")
 
-  // useEffect(() => {
-  //   async function getImages() {
-  //     const images = await getGeneratedImagesUrls({
-  //       storage: storage,
-  //       userId: user.id,
-  //       purchaseId: id,
-  //     })
-  //     console.log(images)
-  //     setGeneratedImage(images[0])
-  //     setLoading(false)
-  //   }
+  useEffect(() => {
+    async function getImages() {
+      const images = await getJobImages(id)
+      setImages(images)
+      setLoading(false)
+    }
+    getImages()
+  }, [])
 
-  //   getImages()
-  // }, [])
-
-  const opacity = useRef(new Animated.Value(0.5)).current
+  const opacity = useRef(new Animated.Value(0.8)).current
 
   useEffect(() => {
     if (!loading) {
@@ -42,57 +43,39 @@ const Page: React.FC = () => {
     }
   }, [opacity, loading])
 
-  //   if (!generatedImage) {
-  //     return <View style={{ flex: 1, backgroundColor: "#000" }}></View>
-  //   }
+  if (!images) {
+    return <View style={{ flex: 1, backgroundColor: "#000" }}></View>
+  }
 
   return (
     <View
       style={{
-        flex: 1,
-        backgroundColor: "#000",
-        paddingHorizontal: 20,
+        width: width,
+        height: height,
         alignItems: "center",
       }}
     >
-      <Text style={{ color: "white", fontSize: 24, marginTop: 48 }}>{id}</Text>
-      <Text style={{ color: "white", fontSize: 24, marginTop: 48 }}>test</Text>
-      {/* <Animated.View
+      <Animated.View
         style={{
           opacity,
           marginTop: 48,
         }}
       >
-        <ImageCard
-          width={screenWidth - 20}
-          height={screenWidth * 1.5}
-          imageLink={generatedImage}
-        />
-      </Animated.View> */}
+        <BeforeAndAfter images={images} />
 
-      {/* <View
-          style={{
-            width: "100%",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            position: "absolute",
-            bottom: 40,
-          }}
-        >
-          <View style={{ width: "45%" }}>
-            <CustomButton
-              handleOnPress={() => downloadFileWithoutResumable(generatedImage)}
-              text="download"
-            />
+        <BottomGradient>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              padding: 16,
+            }}
+          >
+            <DownloadButton />
+            <ShareButton />
           </View>
-  
-          <View style={{ width: "45%" }}>
-            <CustomButton
-              handleOnPress={() => shareToInstagramStory(generatedImage)}
-              text="share"
-            />
-          </View>
-        </View> */}
+        </BottomGradient>
+      </Animated.View>
     </View>
   )
 }

@@ -20,10 +20,6 @@ export const UploadFotos: FC<UploadPhotosProps> = ({
 }) => {
   const { width } = Dimensions.get("window")
 
-  useEffect(() => {
-    console.log("tesssstt", usableImages)
-  }, [usableImages])
-
   return (
     <>
       <View style={{ width: "100%", marginTop: 12 }}>

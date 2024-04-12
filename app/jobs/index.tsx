@@ -1,12 +1,22 @@
 import { useUser } from "@utils/user/UserContext"
 import { ImageCard } from "lib/components/molecules/ImageCard"
 import { JobCard } from "lib/components/organisms/allJobsPage/JobCard"
+import { NewJobButton } from "lib/components/organisms/allJobsPage/NewJobButton"
 import { ScrollView, View, Text } from "react-native"
 
 const Page: React.FC = () => {
   const { user } = useUser()
 
   const BLACK = "#000"
+
+  if (!user.jobs) {
+    return (
+      <>
+        <Text style={{ color: "white" }}>Loading...</Text>
+      </>
+    )
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: "#000" }}>
       {user.jobs!.length > 0 ? (
@@ -59,13 +69,11 @@ const Page: React.FC = () => {
               we haven't seen you on the catwalk yet
             </Text>
           </View>
+          <NewJobButton />
         </View>
       )}
 
-      {/* <FloatingActionButton
-        text="New Walk"
-        onPress={() => gotoPhotos(router)}
-      /> */}
+      <NewJobButton />
     </View>
   )
 }

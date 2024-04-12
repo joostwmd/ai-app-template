@@ -6,6 +6,7 @@ import { createShimmerPlaceholder } from "react-native-shimmer-placeholder"
 interface ImageCardProps {
   width: number
   height: number
+  borderRadius?: number
   imageLink?: string
   showPlaceholder?: boolean
   children?: React.ReactNode
@@ -15,6 +16,7 @@ interface ImageCardProps {
 export const ImageCard: React.FC<ImageCardProps> = ({
   width,
   height,
+  borderRadius = 12,
   imageLink,
   showPlaceholder = false,
   children,
@@ -38,24 +40,24 @@ export const ImageCard: React.FC<ImageCardProps> = ({
 
   if (showPlaceholder || !imageLink) {
     return (
-      <View style={[{ width, height, borderRadius: 12 }]}>
+      <View style={[{ width, height, borderRadius }]}>
         <LinearGradient
           colors={["#000", "#333"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
-          style={{ width, height, borderRadius: 12 }}
+          style={{ width, height, borderRadius }}
         />
       </View>
     )
   }
 
   return (
-    <View style={[{ width, height, borderRadius: 12 }]}>
+    <View style={[{ width, height, borderRadius }]}>
       {loading && (
         <ShimmerPlaceholder
           width={width}
           height={height}
-          style={{ borderRadius: 12, opacity: 0.5 }}
+          style={{ borderRadius }}
         />
       )}
       {imageLink && (
@@ -68,7 +70,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
               position: "absolute",
               top: 0,
               left: 0,
-              borderRadius: 12,
+              borderRadius,
             }}
             onLoad={() => setLoading(false)}
             onError={() => setLoading(false)}

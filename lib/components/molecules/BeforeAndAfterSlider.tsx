@@ -23,7 +23,9 @@ export const BeforeAndAfterSlider: React.FC<BeforeAndAfterSliderProps> = ({
   return (
     <ScrollView
       scrollEnabled={false}
-      contentContainerStyle={{ alignItems: "center" }}
+      contentContainerStyle={{
+        alignItems: "center",
+      }}
     >
       <Compare
         initial={width / 2}
@@ -32,7 +34,7 @@ export const BeforeAndAfterSlider: React.FC<BeforeAndAfterSliderProps> = ({
         height={height}
       >
         <Before>{before}</Before>
-        <After style={{ width, height }}>{after}</After>
+        <After>{after}</After>
         <Dragger>
           <View
             style={{
