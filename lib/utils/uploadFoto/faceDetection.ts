@@ -8,7 +8,6 @@ import FaceDetection, {
 
 export async function faceDetection(imagePath: string): Promise<FaceResult[]> {
   try {
-    console.log("Processing faces in image: ", imagePath)
     const options = {
       landmarkMode: FaceDetectorLandmarkMode.ALL,
       contourMode: FaceDetectorContourMode.ALL,

@@ -1,4 +1,5 @@
 import { FirebaseStorage, ref, uploadBytes } from "firebase/storage"
+import uuid from "react-native-uuid"
 
 interface UploadImageProps {
   userId: string
@@ -13,7 +14,8 @@ export async function uploadImage({
   jobId,
   image,
 }: UploadImageProps) {
-  const reference = ref(storage, `${userId}/${jobId}/uploaded/${image}`)
+  const id = uuid.v4()
+  const reference = ref(storage, `${userId}/${jobId}/uploaded/${id}`)
 
   const blob: Blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
@@ -29,6 +31,6 @@ export async function uploadImage({
   })
 
   uploadBytes(reference, blob).then(() => {
-    console.log("Uploaded")
+    console.log("Uploaded", image)
   })
 }

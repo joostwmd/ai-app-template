@@ -17,7 +17,7 @@ export const BottomGradient: React.FC<BottomGradientProps> = ({ children }) => {
         left: 0,
         right: 0,
         bottom: 0,
-        height: 240,
+        height: 180,
       }}
     >
       <View

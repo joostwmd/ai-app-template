@@ -7,6 +7,7 @@ export interface UserContextValue {
     folder: "generated" | "uploaded"
   }) => GetJobsImageByFolder
   getJobImages: (jobId: string) => GetJobImages
+  getJobs: () => Promise<JobRecord[]>
 }
 
 export interface JobRecord {

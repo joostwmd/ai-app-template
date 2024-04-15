@@ -25,7 +25,5 @@ export async function createJob({
     finished: false,
   })
 
-  console.log("newPurchaseDocId", newJobDoc.id)
-
   return newJobDoc
 }

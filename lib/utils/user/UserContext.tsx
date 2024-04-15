@@ -13,6 +13,7 @@ import {
   UserContextValue,
   UserRecord,
 } from "./types"
+import { getAllJobs } from "./methods/jobs/fetchAllJobs"
 
 const UserContext = createContext<UserContextValue | null>(null)
 
@@ -55,12 +56,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [authUser])
 
-  //   useEffect(() => {
-  //     if (user.jobs && user.id && user.tokens) {
-  //       setLoaded(true)
-  //     }
-  //   }, [user])
-
   async function createNewJobs(images: string[]) {
     console.log("images", images)
     if (!authUser) {
@@ -75,15 +70,19 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       )
 
       const newJobDoc = await createJob({ db, userId: authUser.uid })
+      console.log("New job doc created", newJobDoc.id)
       await uploadImage({
         storage,
         userId: authUser.uid,
         jobId: newJobDoc.id,
         image,
       })
-    }
-  }
 
+      // Add a delay before moving to the next image
+      await new Promise((resolve) => setTimeout(resolve, 100))
+    }
+    return Promise.resolve()
+  }
   async function getJobsImageByFolder({
     jobId,
     folder,
@@ -127,7 +126,16 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     return { uploaded: uploadedImages[0], generated: generatedImages[0] }
   }
 
-  // prevents app from rendering right now
+  async function getJobs() {
+    if (!authUser) {
+      throw new Error("User not authenticated")
+    }
+    const jobs = await getAllJobs(db, storage, authUser.uid)
+    console.log("jobs user context", jobs)
+    return jobs
+  }
+
+  // prevents app from rendering atm
   // if (!user.id || !user.tokens || !user.jobs) {
   //   return null
   // }
@@ -140,6 +148,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         createNewJobs,
         getJobsImageByFolder,
         getJobImages,
+        getJobs,
       }}
     >
       {children}

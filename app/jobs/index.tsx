@@ -1,25 +1,39 @@
 import { useUser } from "@utils/user/UserContext"
+import { JobRecord } from "@utils/user/types"
 import { ImageCard } from "lib/components/molecules/ImageCard"
 import { JobCard } from "lib/components/organisms/allJobsPage/JobCard"
 import { NewJobButton } from "lib/components/organisms/allJobsPage/NewJobButton"
+import { useEffect, useState } from "react"
 import { ScrollView, View, Text } from "react-native"
 
 const Page: React.FC = () => {
-  const { user } = useUser()
+  const { getJobs, user } = useUser()
 
   const BLACK = "#000"
 
+  // const [jobs, setJobs] = useState<JobRecord[] | null>(null)
+
+  // useEffect(() => {
+  //   const fetchJobs = async () => {
+  //     const jobs = await getJobs()
+  //     console.log("jobs", jobs)
+  //     setJobs(jobs)
+  //   }
+
+  //   fetchJobs()
+  // }, [])
+
   if (!user.jobs) {
     return (
-      <>
+      <View style={{ flex: 1, backgroundColor: "red" }}>
         <Text style={{ color: "white" }}>Loading...</Text>
-      </>
+      </View>
     )
   }
 
   return (
     <View style={{ flex: 1, backgroundColor: "#000" }}>
-      {user.jobs!.length > 0 ? (
+      {user.jobs.length > 0 ? (
         <ScrollView
           contentContainerStyle={[
             {
@@ -31,7 +45,7 @@ const Page: React.FC = () => {
             { flexDirection: "row", flexWrap: "wrap" },
           ]}
         >
-          {user.jobs!.map((job) => {
+          {user.jobs.map((job) => {
             return <JobCard key={job.id} job={job} />
           })}
         </ScrollView>

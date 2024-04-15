@@ -1,5 +1,12 @@
 import { UserRecord } from "@utils/user/types"
-import { Firestore, collection, doc, onSnapshot } from "firebase/firestore"
+import {
+  Firestore,
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore"
 import { Dispatch, SetStateAction } from "react"
 
 interface JobRecord {
@@ -14,14 +21,15 @@ export const subscribeToJobsCollection = (
 ) => {
   const userDoc = doc(db, "users", userId)
   const jobsCollection = collection(userDoc, "jobs")
+  const jobsQuery = query(jobsCollection, orderBy("createdAt", "desc"))
 
-  const unsubscribe = onSnapshot(jobsCollection, async (jobsSnapshot) => {
-    const changes = jobsSnapshot.docChanges()
-    changes.forEach((change) => {
-      console.log(`Job ${change.type}:`, change.doc.id, change.doc.data())
-    })
-
+  const unsubscribe = onSnapshot(jobsQuery, async (jobsSnapshot) => {
     if (!jobsSnapshot.empty) {
+      const changes = jobsSnapshot.docChanges()
+      for (let change of changes) {
+        console.log("change", change.type)
+      }
+
       const jobs: JobRecord[] = []
       for (let job of jobsSnapshot.docs) {
         const data = job.data()
