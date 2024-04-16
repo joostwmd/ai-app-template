@@ -9,7 +9,7 @@ export async function decreaseUserTokens(userId: string) {
       },
       body: JSON.stringify({ user_id: userId }),
     })
-    console.log("decreaseUserToken", res)
+    console.log("decreaseUserToken")
   } catch (error) {
     console.error(error)
   }

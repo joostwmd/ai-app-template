@@ -22,6 +22,7 @@ interface JobCardProps {
 }
 
 export function JobCard({ job }: JobCardProps) {
+  console.log("job card", job)
   const { getJobsImageByFolder } = useUser()
   const { width } = Dimensions.get("window")
   const paddingHorizontal: number = 10

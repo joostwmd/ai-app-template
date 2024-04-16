@@ -1,39 +1,39 @@
 import { useUser } from "@utils/user/UserContext"
+import { getJobs } from "@utils/user/methods/test/AsyncStorage"
+import { JobRecordTest } from "@utils/user/methods/test/types"
 import { JobRecord } from "@utils/user/types"
 import { ImageCard } from "lib/components/molecules/ImageCard"
-import { JobCard } from "lib/components/organisms/allJobsPage/JobCard"
+
 import { NewJobButton } from "lib/components/organisms/allJobsPage/NewJobButton"
 import { useEffect, useState } from "react"
-import { ScrollView, View, Text } from "react-native"
+import { ScrollView, View, Text, Dimensions } from "react-native"
+import { useFocusEffect } from "expo-router"
+import { useCallback } from "react"
+import { JobCard } from "@utils/user/methods/test/JobCard"
 
 const Page: React.FC = () => {
-  const { getJobs, user } = useUser()
-
   const BLACK = "#000"
+  const [jobs, setJobs] = useState<JobRecordTest[]>([])
 
-  // const [jobs, setJobs] = useState<JobRecord[] | null>(null)
-
-  // useEffect(() => {
-  //   const fetchJobs = async () => {
-  //     const jobs = await getJobs()
-  //     console.log("jobs", jobs)
-  //     setJobs(jobs)
-  //   }
-
-  //   fetchJobs()
-  // }, [])
-
-  if (!user.jobs) {
-    return (
-      <View style={{ flex: 1, backgroundColor: "red" }}>
-        <Text style={{ color: "white" }}>Loading...</Text>
-      </View>
-    )
+  async function getJobsAndUpdateState() {
+    const jobs = await getJobs()
+    console.log("jobs", jobs)
+    setJobs(jobs)
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      getJobsAndUpdateState()
+      const intervalId = setInterval(getJobsAndUpdateState, 5000)
+      return () => {
+        clearInterval(intervalId)
+      }
+    }, [])
+  )
 
   return (
     <View style={{ flex: 1, backgroundColor: "#000" }}>
-      {user.jobs.length > 0 ? (
+      {jobs.length > 0 ? (
         <ScrollView
           contentContainerStyle={[
             {
@@ -45,7 +45,7 @@ const Page: React.FC = () => {
             { flexDirection: "row", flexWrap: "wrap" },
           ]}
         >
-          {user.jobs.map((job) => {
+          {jobs.map((job) => {
             return <JobCard key={job.id} job={job} />
           })}
         </ScrollView>
@@ -67,11 +67,7 @@ const Page: React.FC = () => {
           {[1, 2, 3, 4, 5, 6].map((i) => {
             return (
               <View style={{ margin: 10 }} key={i}>
-                <ImageCard
-                  width={innerWidth / 2 - 10}
-                  height={(innerWidth / 2 - 10) * 1.75}
-                  showPlaceholder={true}
-                >
+                <ImageCard width={200} height={300} showPlaceholder={true}>
                   <></>
                 </ImageCard>
               </View>

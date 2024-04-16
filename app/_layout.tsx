@@ -6,6 +6,7 @@ import { FirebaseProvider, useFirebase } from "@utils/firebase/FirebaseContext"
 import { UserProvider, useUser } from "@utils/user/UserContext"
 import { StatusBar } from "expo-status-bar"
 import { View } from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -26,6 +27,10 @@ function AppContent() {
     console.log("Fonts loaded: ", fontsLoaded)
     if (fontsLoaded) {
       SplashScreen.hideAsync()
+
+      //test
+      //AsyncStorage.clear()
+      //console.log("AsyncStorage cleared")
     }
   }, [fontsLoaded])
 

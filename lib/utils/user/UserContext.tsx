@@ -1,10 +1,10 @@
 import { User, onAuthStateChanged } from "firebase/auth"
 import { createContext, useContext, useEffect, useState } from "react"
-import { createJob } from "./methods/jobs/createJob"
-import { uploadImage } from "./methods/images/uploadImage"
+import { createJob } from "./methods/test/createJob"
+import { uploadImage } from "./methods/test/uploadImage"
 import { useFirebase } from "../firebase/FirebaseContext"
 import { subscribeToUserDocument } from "./methods/user/subscribeToUser"
-import { subscribeToJobsCollection } from "./methods/jobs/subscribeToJobs"
+import { subscribeToJobsCollection } from "./methods/test/subscribeToJobs"
 import { createNewUser } from "./methods/user/createUser"
 import { getImagesUrls } from "./methods/images/getImages"
 import {
@@ -14,6 +14,7 @@ import {
   UserRecord,
 } from "./types"
 import { getAllJobs } from "./methods/jobs/fetchAllJobs"
+import { updateJob } from "./methods/test/updateJob"
 
 const UserContext = createContext<UserContextValue | null>(null)
 
@@ -29,10 +30,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      console.log("authUser", authUser)
       const handleAuth = async () => {
         if (authUser) {
           setAuthUser(authUser)
         } else {
+          console.log("Creating new user")
           const authUser = await createNewUser({ auth })
           setAuthUser(authUser)
         }
@@ -48,7 +51,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       return
     }
     const unsubscribeUser = subscribeToUserDocument(db, authUser.uid, setUser)
-    const unsubscribeJobs = subscribeToJobsCollection(db, authUser.uid, setUser)
+    const unsubscribeJobs = subscribeToJobsCollection(
+      db,
+      storage,
+      authUser.uid,
+      setUser
+    )
 
     return () => {
       unsubscribeUser()
@@ -62,21 +70,20 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       throw new Error("User not authenticated")
     }
     for (let image of images) {
-      console.log(
-        "Creating new job for user",
-        authUser.uid,
-        "with image",
-        image
-      )
-
       const newJobDoc = await createJob({ db, userId: authUser.uid })
-      console.log("New job doc created", newJobDoc.id)
-      await uploadImage({
+      console.log("New job doc created", newJobDoc)
+      const uploadedImage = await uploadImage({
         storage,
         userId: authUser.uid,
         jobId: newJobDoc.id,
         image,
       })
+
+      if (uploadedImage.success) {
+        console.log("Image uploaded")
+        await updateJob({ db, userId: authUser.uid, jobId: newJobDoc.id })
+        console.log("Job updated")
+      }
 
       // Add a delay before moving to the next image
       await new Promise((resolve) => setTimeout(resolve, 100))
