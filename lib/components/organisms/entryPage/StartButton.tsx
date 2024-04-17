@@ -9,7 +9,7 @@ const StartButton: React.FC = () => {
   return (
     <BottomGradient>
       <TouchableOpacity
-        onPress={() => router.push("/jobs/")}
+        onPress={() => router.replace("/jobs/")}
         style={{
           position: "absolute",
           bottom: 44,

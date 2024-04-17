@@ -1,15 +1,12 @@
-import { useUser } from "@utils/user/UserContext"
 import { getJobs } from "@utils/user/methods/test/AsyncStorage"
 import { JobRecordTest } from "@utils/user/methods/test/types"
-import { JobRecord } from "@utils/user/types"
-import { ImageCard } from "lib/components/molecules/ImageCard"
-
 import { NewJobButton } from "lib/components/organisms/allJobsPage/NewJobButton"
-import { useEffect, useState } from "react"
-import { ScrollView, View, Text, Dimensions } from "react-native"
+import { useState } from "react"
+import { ScrollView, View, Text } from "react-native"
 import { useFocusEffect } from "expo-router"
 import { useCallback } from "react"
 import { JobCard } from "@utils/user/methods/test/JobCard"
+import { PlaceholderCard } from "@utils/user/methods/test/PlaceholderCard"
 
 const Page: React.FC = () => {
   const BLACK = "#000"
@@ -17,7 +14,6 @@ const Page: React.FC = () => {
 
   async function getJobsAndUpdateState() {
     const jobs = await getJobs()
-    console.log("jobs", jobs)
     setJobs(jobs)
   }
 
@@ -65,17 +61,11 @@ const Page: React.FC = () => {
           ]}
         >
           {[1, 2, 3, 4, 5, 6].map((i) => {
-            return (
-              <View style={{ margin: 10 }} key={i}>
-                <ImageCard width={200} height={300} showPlaceholder={true}>
-                  <></>
-                </ImageCard>
-              </View>
-            )
+            return <PlaceholderCard key={i} />
           })}
           <View style={{ position: "absolute", alignItems: "center" }}>
-            <Text style={{ fontSize: 28, color: "white" }}>no walks</Text>
-            <Text style={{ fontSize: 48, color: "white" }}>
+            <Text style={{ fontSize: 18, color: "white" }}>no walks</Text>
+            <Text style={{ fontSize: 28, color: "white" }}>
               we haven't seen you on the catwalk yet
             </Text>
           </View>

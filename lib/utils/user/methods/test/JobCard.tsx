@@ -24,7 +24,6 @@ interface JobCardProps {
 }
 
 export function JobCard({ job }: JobCardProps) {
-  const { getJobsImageByFolder } = useUser()
   const { width } = Dimensions.get("window")
   const paddingHorizontal: number = 10
   const innerWidth: number = width - paddingHorizontal * 2
@@ -36,23 +35,6 @@ export function JobCard({ job }: JobCardProps) {
 
   const animation = useSharedValue(1)
   const prevFinishedRef = useRef(job.finished)
-  const [imageLink, setImageLink] = useState<string | undefined>(undefined)
-
-  useEffect(() => {
-    let imageLink: string | null = null
-
-    if (job.finished) {
-      console.log("job finished", job, job.generatedImagLocalURL)
-      imageLink = job.generatedImagLocalURL
-    } else if (!job.finished && job.uploaded) {
-      imageLink = job.uploadedImageLocalURL
-      console.log("job unfinished", job, job.generatedImagLocalURL)
-    } else {
-      console.log("job wtf", job)
-    }
-
-    setImageLink(imageLink)
-  }, [])
 
   useEffect(() => {
     const animate = async () => {
@@ -77,54 +59,16 @@ export function JobCard({ job }: JobCardProps) {
     <Animated.View style={[{ margin: 10 }, animatedStyle]} key={job.id}>
       {job.finished ? (
         <TouchableOpacity onPress={() => gotoWalk(job.id)}>
-          {/* <ImageCard
-            imageLink={imageLink}
+          <ImageCard
+            imageLink={job.coverImage!}
             width={innerWidth / 2 - paddingHorizontal}
             height={(innerWidth / 2 - paddingHorizontal) * 1.75}
-          ></ImageCard> */}
-          {/* 
-          <Image
-            source={{ uri: imageLink }}
-            style={{
-              width,
-              height: innerWidth / 2 - paddingHorizontal * 1.75,
-              position: "absolute",
-              top: 0,
-              left: 0,
-              borderRadius: 12,
-            }}
-          /> */}
-
-          {/* <View
-            style={{
-              width: innerWidth / 2 - paddingHorizontal,
-              height: (innerWidth / 2 - paddingHorizontal) * 1.75,
-              borderRadius: 12,
-              backgroundColor: "green",
-            }}
-          /> */}
-
-          <Image
-            source={{
-              uri: "file:///var/mobile/Containers/Data/Application/A7D942BE-79AE-4C73-923A-EA204B7D9A2C/Documents/mLM0loXxA61hGhx2p2dH/uploaded",
-            }}
-            style={{
-              width: innerWidth / 2 - paddingHorizontal,
-              height: (innerWidth / 2 - paddingHorizontal) * 1.75,
-              position: "absolute",
-              top: 0,
-              left: 0,
-              borderRadius: 12,
-            }}
-            onError={(e) => {
-              console.log("error image load", e.nativeEvent.error)
-            }}
-          />
+          ></ImageCard>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity>
-          {/* <ImageCard
-            imageLink={imageLink}
+          <ImageCard
+            imageLink={job.coverImage!}
             width={innerWidth / 2 - paddingHorizontal}
             height={(innerWidth / 2 - paddingHorizontal) * 1.75}
             childrenStyle={{
@@ -157,16 +101,7 @@ export function JobCard({ job }: JobCardProps) {
             >
               <ActivityIndicator color={"white"} />
             </View>
-          </ImageCard> */}
-
-          <View
-            style={{
-              width: innerWidth / 2 - paddingHorizontal,
-              height: (innerWidth / 2 - paddingHorizontal) * 1.75,
-              borderRadius: 12,
-              backgroundColor: "red",
-            }}
-          />
+          </ImageCard>
         </TouchableOpacity>
       )}
     </Animated.View>

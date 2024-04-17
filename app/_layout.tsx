@@ -27,11 +27,13 @@ function AppContent() {
     console.log("Fonts loaded: ", fontsLoaded)
     if (fontsLoaded) {
       SplashScreen.hideAsync()
-
-      //test
-      //AsyncStorage.clear()
-      //console.log("AsyncStorage cleared")
     }
+
+    async function clearAsyncStorage() {
+      await AsyncStorage.clear()
+      console.log("AsyncStorage cleared")
+    }
+    //clearAsyncStorage()
   }, [fontsLoaded])
 
   // if (!fontsLoaded) {

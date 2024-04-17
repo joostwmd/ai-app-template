@@ -11,7 +11,7 @@ import { useState } from "react"
 import { Button, ScrollView } from "react-native"
 
 const Page: React.FC = () => {
-  const { createNewJobs } = useUser()
+  const { createNewJobs, user } = useUser()
 
   const [usableImages, setUsableImages] = useState<string[]>([])
   async function handlePickImage() {
@@ -34,8 +34,7 @@ const Page: React.FC = () => {
   }
 
   async function handleGenerateImages() {
-    console.log("generate")
-    if (usableImages.length > 0) {
+    if (usableImages.length > 0 && user.tokens! - usableImages.length >= 0) {
       console.log("creating new jobs")
       await createNewJobs(usableImages)
     }

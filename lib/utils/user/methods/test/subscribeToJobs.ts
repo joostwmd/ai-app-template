@@ -9,10 +9,8 @@ import {
 } from "firebase/firestore"
 import { FirebaseStorage } from "firebase/storage"
 import { JobRecordTest } from "./types"
-import { getJobs, setData, setJobs } from "./AsyncStorage"
+import { getJobs, setJobs } from "./AsyncStorage"
 import { getImageUrl } from "./getImage"
-import { generateLocalImagePath } from "./generateLoclImagePath"
-import { downloadToFileSystem } from "./downloadToFileSystem"
 
 export const subscribeToJobsCollection = (
   db: Firestore,
@@ -37,8 +35,7 @@ export const subscribeToJobsCollection = (
               id: jobId,
               uploaded: false,
               finished: false,
-              uploadedImageLocalURL: null,
-              generatedImagLocalURL: null,
+              coverImage: null,
               createdAt: current.createdAt,
             })
           }
@@ -52,24 +49,13 @@ export const subscribeToJobsCollection = (
               folder: "uploaded",
             })
 
-            const localImagePath = generateLocalImagePath({
-              jobId: jobId,
-              isFinished: false,
-            })
-
-            const localImageURI = await downloadToFileSystem({
-              imageUrl: imageUrl,
-              localPath: localImagePath,
-            })
-
             const index = jobs.findIndex((job) => job.id === jobId)
             if (index !== -1) {
               jobs[index] = {
                 id: jobId,
                 uploaded: true,
-                finished: true,
-                uploadedImageLocalURL: prev.uploadedImageLocalURL,
-                generatedImagLocalURL: localImageURI,
+                finished: false,
+                coverImage: imageUrl,
                 createdAt: current.createdAt,
               }
             }
@@ -81,38 +67,19 @@ export const subscribeToJobsCollection = (
               folder: "generated",
             })
 
-            const localImagePath = generateLocalImagePath({
-              jobId: jobId,
-              isFinished: true,
-            })
-
-            const localImageURI = await downloadToFileSystem({
-              imageUrl: imageUrl,
-              localPath: localImagePath,
-            })
-
             const index = jobs.findIndex((job) => job.id === jobId)
             if (index !== -1) {
               jobs[index] = {
                 id: jobId,
                 uploaded: true,
                 finished: true,
-                uploadedImageLocalURL: prev.uploadedImageLocalURL,
-                generatedImagLocalURL: localImageURI,
+                coverImage: imageUrl,
                 createdAt: current.createdAt,
               }
             }
           }
         }
       }
-
-      //test
-      // jobs.sort(
-      //   (a, b) =>
-      //     b.createdAt.seconds - a.createdAt.seconds ||
-      //     b.createdAt.nanoseconds - a.createdAt.nanoseconds
-      // )
-
       setJobs(jobs)
     }
   })
