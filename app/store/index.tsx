@@ -9,12 +9,7 @@ import React from "react"
 import { View, Text, TouchableOpacity, Dimensions, Image } from "react-native"
 import { PurchasesOffering } from "react-native-purchases"
 
-type Props = {
-  name: string
-  age: number
-}
-
-const Page: React.FC<Props> = () => {
+const Page: React.FC = () => {
   const { width, height } = Dimensions.get("window")
 
   const { purchase, offerings } = useRevenuecat()
