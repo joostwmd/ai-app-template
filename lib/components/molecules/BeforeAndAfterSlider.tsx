@@ -21,48 +21,51 @@ export const BeforeAndAfterSlider: React.FC<BeforeAndAfterSliderProps> = ({
   height,
 }) => {
   return (
-    <ScrollView
-      scrollEnabled={false}
-      contentContainerStyle={{
-        alignItems: "center",
-      }}
-    >
-      <Compare
-        initial={width / 2}
-        draggerWidth={50}
-        width={width}
-        height={height}
+    <View style={{ width, height }}>
+      <ScrollView
+        scrollEnabled={false}
+        contentContainerStyle={{
+          alignItems: "center",
+        }}
       >
-        <Before>{before}</Before>
-        <After>{after}</After>
-        <Dragger>
-          <View
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 24,
-              bottom: 0,
-              left: 24,
-              backgroundColor: "#fff",
-              opacity: 0.6,
-              zIndex: 10,
-            }}
-          ></View>
-          <View
-            style={{
-              position: "absolute",
-              top: height / 2,
-              left: 10,
-              backgroundColor: "#fff",
-              opacity: 0.9,
-              width: 30,
-              height: 30,
-              marginTop: -15,
-              transform: [{ rotate: "45deg" }],
-            }}
-          ></View>
-        </Dragger>
-      </Compare>
-    </ScrollView>
+        <Compare
+          initial={width / 2}
+          draggerWidth={50}
+          width={width}
+          height={height}
+        >
+          <Before>{before}</Before>
+          <After>{after}</After>
+          <Dragger>
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 24,
+                bottom: 0,
+                left: 24,
+                backgroundColor: "#fff",
+                opacity: 0.6,
+                zIndex: 10,
+                height,
+              }}
+            ></View>
+            <View
+              style={{
+                position: "absolute",
+                top: height / 2,
+                left: 10,
+                backgroundColor: "#fff",
+                opacity: 0.9,
+                width: 30,
+                height: 30,
+                marginTop: -15,
+                transform: [{ rotate: "45deg" }],
+              }}
+            ></View>
+          </Dragger>
+        </Compare>
+      </ScrollView>
+    </View>
   )
 }

@@ -13,7 +13,7 @@ const BeforeAndAfter = () => {
             source={{
               uri: "https://firebasestorage.googleapis.com/v0/b/milanlaser-fcb24.appspot.com/o/omaha_bw.jpg?alt=media&token=9864378d-74d9-4579-830d-a56e50dc017d",
             }}
-            style={{ width, height }}
+            style={{ width, height: height }}
           />
         }
         after={
