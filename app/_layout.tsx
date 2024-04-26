@@ -19,7 +19,7 @@ SplashScreen.preventAutoHideAsync()
 function AppContent() {
   const [fontsLoaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    //Pricedown: require("@assets/fonts/Pricedown.otf"),
+    Pricedown: require("@assets/fonts/Pricedown.otf"),
     ...FontAwesome.font,
   })
 
