@@ -18,9 +18,17 @@ interface SvgIconProps {
 export const SvgIcon = ({ icon }: SvgIconProps) => {
   const svg = useSVG(icons[icon])
 
+  let width = 24
+  let height = 24
+
+  if (icon === "cross") {
+    width = 58
+    height = 96
+  }
+
   return (
-    <Canvas style={{ width: 24, height: 24 }}>
-      {svg && <ImageSVG svg={svg} width={24} height={24} />}
+    <Canvas style={{ width, height }}>
+      {svg && <ImageSVG svg={svg} width={width} height={height} />}
     </Canvas>
   )
 }

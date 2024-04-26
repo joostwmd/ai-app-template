@@ -6,6 +6,8 @@ import Compare, {
   Dragger,
   //@ts-ignore
 } from "react-native-before-after-slider-v2"
+import { Canvas, ImageSVG } from "@shopify/react-native-skia"
+import { SvgIcon } from "./SvgIcon"
 
 type BeforeAndAfterSliderProps = {
   before: React.ReactNode
@@ -50,19 +52,16 @@ export const BeforeAndAfterSlider: React.FC<BeforeAndAfterSliderProps> = ({
                 height,
               }}
             ></View>
+
             <View
               style={{
                 position: "absolute",
                 top: height / 2,
-                left: 10,
-                backgroundColor: "#fff",
-                opacity: 0.9,
-                width: 30,
-                height: 30,
-                marginTop: -15,
-                transform: [{ rotate: "45deg" }],
+                left: -4,
               }}
-            ></View>
+            >
+              <SvgIcon icon="cross" />
+            </View>
           </Dragger>
         </Compare>
       </ScrollView>
