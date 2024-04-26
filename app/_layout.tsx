@@ -49,6 +49,7 @@ function AppContent() {
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: "#000" },
+          animation: "fade",
         }}
       ></Stack>
     </View>
