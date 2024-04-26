@@ -7,6 +7,7 @@ import { UserProvider, useUser } from "@utils/user/UserContext"
 import { StatusBar } from "expo-status-bar"
 import { View } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { RevenuecatProvider } from "@utils/revenuecat/RevenuecatContext"
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -58,7 +59,9 @@ export default function RootLayout() {
   return (
     <FirebaseProvider>
       <UserProvider>
-        <AppContent />
+        <RevenuecatProvider>
+          <AppContent />
+        </RevenuecatProvider>
       </UserProvider>
     </FirebaseProvider>
   )

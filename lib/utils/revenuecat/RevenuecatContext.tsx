@@ -33,6 +33,7 @@ export function RevenuecatProvider({
       }
 
       const offerings = await Purchases.getOfferings()
+      console.log("Offerings: ", offerings)
       setOfferings(offerings)
       setLoaded(true)
     }
