@@ -72,7 +72,7 @@ const Page: React.FC = () => {
               paddingBottom: 32,
             }}
           >
-            <DownloadButton />
+            <DownloadButton jobId={id} url={images.generated} />
             <ShareButton url={images.generated} />
           </View>
         </BottomGradient>

@@ -1,10 +1,22 @@
+import { download } from "@utils/helpers/download"
 import { CustomButton } from "lib/components/molecules/Button"
+import { View } from "react-native"
 
-export const DownloadButton: React.FC = () => {
+interface DownloadButtonProps {
+  url: string
+  jobId: string
+}
+
+export const DownloadButton: React.FC<DownloadButtonProps> = ({
+  url,
+  jobId,
+}) => {
   return (
-    <CustomButton
-      text="Download"
-      handleOnPress={() => console.log("download")}
-    />
+    <View style={{ width: "42%" }}>
+      <CustomButton
+        text="Save"
+        handleOnPress={() => download({ jobId, url })}
+      />
+    </View>
   )
 }

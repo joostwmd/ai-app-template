@@ -8,7 +8,7 @@ type ShareButtonProps = {
 
 export const ShareButton: React.FC<ShareButtonProps> = ({ url }) => {
   return (
-    <View style={{ width: "33%" }}>
+    <View style={{ width: "42%" }}>
       <CustomButton
         text="Share"
         handleOnPress={() => shareInInstagramStory(url)}
