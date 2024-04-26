@@ -23,6 +23,7 @@ export async function createJob({
   const newJobDoc: DocumentData = await addDoc(jobCollection, {
     createdAt: serverTimestamp(),
     finished: false,
+    uploaded: false,
   })
 
   return newJobDoc

@@ -1,10 +1,7 @@
 import { User, onAuthStateChanged } from "firebase/auth"
 import { createContext, useContext, useEffect, useState } from "react"
-import { createJob } from "./methods/test/createJob"
-import { uploadImage } from "./methods/test/uploadImage"
 import { useFirebase } from "../firebase/FirebaseContext"
 import { subscribeToUserDocument } from "./methods/user/subscribeToUser"
-import { subscribeToJobsCollection } from "./methods/test/subscribeToJobs"
 import { createNewUser } from "./methods/user/createUser"
 import { getImagesUrls } from "./methods/images/getImages"
 import {
@@ -14,7 +11,10 @@ import {
   UserRecord,
 } from "./types"
 import { getAllJobs } from "./methods/jobs/fetchAllJobs"
-import { updateJob } from "./methods/test/updateJob"
+import { updateJob } from "./methods/jobs/updateJob"
+import { createJob } from "./methods/jobs/createJob"
+import { subscribeToJobsCollection } from "./methods/jobs/subscribeToJobs"
+import { uploadImage } from "./methods/images/uploadImage"
 
 const UserContext = createContext<UserContextValue | null>(null)
 
@@ -51,12 +51,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       return
     }
     const unsubscribeUser = subscribeToUserDocument(db, authUser.uid, setUser)
-    const unsubscribeJobs = subscribeToJobsCollection(
-      db,
-      storage,
-      authUser.uid,
-      setUser
-    )
+    const unsubscribeJobs = subscribeToJobsCollection(db, storage, authUser.uid)
 
     return () => {
       unsubscribeUser()
@@ -137,7 +132,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     if (!authUser) {
       throw new Error("User not authenticated")
     }
-    const jobs = await getAllJobs(db, storage, authUser.uid)
+    const jobs = await getAllJobs(db, authUser.uid)
     console.log("jobs user context", jobs)
     return jobs
   }

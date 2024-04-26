@@ -24,3 +24,11 @@ export interface UserRecord {
 export type GetJobImages = Promise<{ uploaded: string; generated: string }>
 
 export type GetJobsImageByFolder = Promise<{ path: string }>
+
+export interface JobRecordTest {
+  id: string
+  uploaded: boolean
+  finished: boolean
+  coverImage: string | null
+  createdAt: { nanoseconds: number; seconds: number }
+}

@@ -30,10 +30,10 @@ function AppContent() {
     }
 
     async function clearAsyncStorage() {
-      await AsyncStorage.clear()
-      console.log("AsyncStorage cleared")
+      //await AsyncStorage.clear()
+      //console.log("AsyncStorage cleared")
     }
-    //clearAsyncStorage()
+    clearAsyncStorage()
   }, [fontsLoaded])
 
   // if (!fontsLoaded) {

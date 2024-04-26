@@ -1,12 +1,12 @@
-import { getJobs } from "@utils/user/methods/test/AsyncStorage"
-import { JobRecordTest } from "@utils/user/methods/test/types"
 import { NewJobButton } from "lib/components/organisms/allJobsPage/NewJobButton"
 import { useState } from "react"
 import { ScrollView, View, Text } from "react-native"
 import { useFocusEffect } from "expo-router"
 import { useCallback } from "react"
-import { JobCard } from "@utils/user/methods/test/JobCard"
-import { PlaceholderCard } from "@utils/user/methods/test/PlaceholderCard"
+import { JobRecordTest } from "@utils/user/types"
+import { getJobs } from "@utils/helpers/AsyncStorage"
+import { JobCard } from "lib/components/organisms/allJobsPage/JobCard"
+import { PlaceholderCard } from "lib/components/organisms/allJobsPage/PlaceholderCrds"
 
 const Page: React.FC = () => {
   const BLACK = "#000"

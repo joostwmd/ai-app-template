@@ -13,24 +13,29 @@ export async function uploadImage({
   storage,
   jobId,
   image,
-}: UploadImageProps) {
-  const id = uuid.v4()
-  const reference = ref(storage, `${userId}/${jobId}/uploaded/${id}`)
+}: UploadImageProps): Promise<{ success: boolean }> {
+  try {
+    const id = uuid.v4()
+    const reference = ref(storage, `${userId}/${jobId}/uploaded/${id}`)
 
-  const blob: Blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.onload = function () {
-      resolve(xhr.response)
-    }
-    xhr.onerror = function () {
-      reject(new TypeError("Network request failed"))
-    }
-    xhr.responseType = "blob"
-    xhr.open("GET", image, true)
-    xhr.send(null)
-  })
+    const blob: Blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+      xhr.onload = function () {
+        resolve(xhr.response)
+      }
+      xhr.onerror = function () {
+        reject(new TypeError("Network request failed"))
+      }
+      xhr.responseType = "blob"
+      xhr.open("GET", image, true)
+      xhr.send(null)
+    })
 
-  uploadBytes(reference, blob).then(() => {
+    await uploadBytes(reference, blob)
     console.log("Uploaded", image)
-  })
+    return { success: true }
+  } catch (error) {
+    console.error("Upload failed", error)
+    return { success: false }
+  }
 }
