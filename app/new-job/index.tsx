@@ -45,7 +45,7 @@ const Page: React.FC = () => {
 
   return (
     <>
-      <Header text="Upload Fotos" />
+      <Header text="Upload Images" />
       <ScrollView contentContainerStyle={styleSheet.screenContainer}>
         <GoodFotosExample />
         <BadFotosExample />

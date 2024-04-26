@@ -24,7 +24,7 @@ export const UploadFotos: FC<UploadPhotosProps> = ({
     <>
       <View style={{ width: "100%", marginTop: 12 }}>
         <Text style={[styleSheet.headingSm, { marginBottom: 8 }]}>
-          Uploaded Photos
+          Uploaded Images
         </Text>
         <Text style={styleSheet.paragraphMd}>
           images that do not meet the requirements are automatically discarded

@@ -9,7 +9,7 @@ export const BadFotosExample = () => {
     <>
       <View style={{ width: "100%", marginTop: 32 }}>
         <Text style={[styleSheet.headingSm, { marginBottom: 8 }]}>
-          Bad Photos
+          Bad Images
         </Text>
         <Text style={styleSheet.paragraphMd}>
           group images, sunglasses, hats, blurry, or low-quality images,

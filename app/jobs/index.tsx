@@ -8,6 +8,7 @@ import { getJobs } from "@utils/helpers/AsyncStorage"
 import { JobCard } from "lib/components/organisms/allJobsPage/JobCard"
 import { PlaceholderCard } from "lib/components/organisms/allJobsPage/PlaceholderCrds"
 import { Header } from "lib/components/molecules/Header"
+import { styleSheet } from "lib/styles"
 
 const Page: React.FC = () => {
   const BLACK = "#000"
@@ -66,9 +67,9 @@ const Page: React.FC = () => {
             return <PlaceholderCard key={i} />
           })}
           <View style={{ position: "absolute", alignItems: "center" }}>
-            <Text style={{ fontSize: 18, color: "white" }}>no walks</Text>
-            <Text style={{ fontSize: 28, color: "white" }}>
-              we haven't seen you on the catwalk yet
+            <Text style={[styleSheet.headingMd]}>nothing to see here</Text>
+            <Text style={[styleSheet.paragraphMd]}>
+              upload your first image annd dive into 2000s videogames
             </Text>
           </View>
           <NewJobButton />

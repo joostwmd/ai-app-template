@@ -9,7 +9,7 @@ export const GoodFotosExample = () => {
     <>
       <View style={{ width: "100%" }}>
         <Text style={[styleSheet.headingSm, { marginBottom: 8 }]}>
-          Good Photos
+          Good Images
         </Text>
         <Text style={styleSheet.paragraphMd}>
           we need close-ups of selfies of a single person from different angles.

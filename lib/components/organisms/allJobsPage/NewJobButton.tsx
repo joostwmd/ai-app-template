@@ -11,7 +11,7 @@ export function NewJobButton() {
 
   return (
     <BottomGradient>
-      <CustomButton text="New Job" handleOnPress={handleClick} />
+      <CustomButton text="New Image" handleOnPress={handleClick} />
     </BottomGradient>
   )
 }
