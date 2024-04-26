@@ -7,6 +7,7 @@ import { JobRecordTest } from "@utils/user/types"
 import { getJobs } from "@utils/helpers/AsyncStorage"
 import { JobCard } from "lib/components/organisms/allJobsPage/JobCard"
 import { PlaceholderCard } from "lib/components/organisms/allJobsPage/PlaceholderCrds"
+import { Header } from "lib/components/molecules/Header"
 
 const Page: React.FC = () => {
   const BLACK = "#000"
@@ -29,6 +30,7 @@ const Page: React.FC = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#000" }}>
+      <Header text="" />
       {jobs.length > 0 ? (
         <ScrollView
           contentContainerStyle={[

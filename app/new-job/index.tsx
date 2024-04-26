@@ -2,6 +2,7 @@ import { faceDetection } from "@utils/uploadFoto/faceDetection"
 import { pickImages } from "@utils/uploadFoto/pickImage"
 import { processFaceDetectionResult } from "@utils/uploadFoto/processFaceDetectionResult"
 import { useUser } from "@utils/user/UserContext"
+import { Header } from "lib/components/molecules/Header"
 import { GenerateButton } from "lib/components/organisms/uploadFotoPage/GenerateButton"
 import { UploadFotos } from "lib/components/organisms/uploadFotoPage/UploadFotos"
 import { BadFotosExample } from "lib/components/organisms/uploadFotoPage/fotoExamples/BadFotos"
@@ -42,6 +43,7 @@ const Page: React.FC = () => {
 
   return (
     <>
+      <Header text="Upload Fotos" />
       <ScrollView contentContainerStyle={styleSheet.screenContainer}>
         <GoodFotosExample />
         <BadFotosExample />
