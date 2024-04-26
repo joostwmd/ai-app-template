@@ -66,13 +66,14 @@ const Page: React.FC = () => {
         <BottomGradient>
           <View
             style={{
+              width: "100%",
               flexDirection: "row",
               justifyContent: "space-between",
-              padding: 16,
+              paddingBottom: 32,
             }}
           >
             <DownloadButton />
-            <ShareButton />
+            <ShareButton url={images.generated} />
           </View>
         </BottomGradient>
       </Animated.View>
