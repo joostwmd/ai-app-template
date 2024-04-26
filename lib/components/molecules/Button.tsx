@@ -1,6 +1,6 @@
 import React from "react"
 import { Text, TouchableOpacity } from "react-native"
-import { BLACK, WHITE, styleSheet } from "../../styles"
+import { BLACK, GRAY, WHITE, styleSheet } from "../../styles"
 
 type ButtonProps = {
   text: string
@@ -18,7 +18,7 @@ export const CustomButton: React.FC<ButtonProps> = ({
       onPress={handleOnPress}
       style={{
         width: "100%",
-        backgroundColor: disabled ? "red" : WHITE,
+        backgroundColor: disabled ? GRAY : WHITE,
         alignItems: "center",
         paddingVertical: 24,
         borderRadius: 4,

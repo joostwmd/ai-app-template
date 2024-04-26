@@ -2,6 +2,8 @@ import { faceDetection } from "@utils/uploadFoto/faceDetection"
 import { pickImages } from "@utils/uploadFoto/pickImage"
 import { processFaceDetectionResult } from "@utils/uploadFoto/processFaceDetectionResult"
 import { useUser } from "@utils/user/UserContext"
+import { BottomGradient } from "lib/components/molecules/BottomGradient"
+import { CustomButton } from "lib/components/molecules/Button"
 import { Header } from "lib/components/molecules/Header"
 import { GenerateButton } from "lib/components/organisms/uploadFotoPage/GenerateButton"
 import { UploadFotos } from "lib/components/organisms/uploadFotoPage/UploadFotos"
@@ -9,7 +11,7 @@ import { BadFotosExample } from "lib/components/organisms/uploadFotoPage/fotoExa
 import { GoodFotosExample } from "lib/components/organisms/uploadFotoPage/fotoExamples/GoodFotos"
 import { styleSheet } from "lib/styles"
 import { useState } from "react"
-import { Button, ScrollView } from "react-native"
+import { ScrollView } from "react-native"
 
 const Page: React.FC = () => {
   const { createNewJobs, user } = useUser()
@@ -53,7 +55,14 @@ const Page: React.FC = () => {
           removeImage={handleRemoveImage}
         />
       </ScrollView>
-      <GenerateButton onPress={handleGenerateImages} />
+
+      <BottomGradient>
+        <CustomButton
+          disabled={usableImages.length === 0}
+          text="generate"
+          handleOnPress={handleGenerateImages}
+        />
+      </BottomGradient>
     </>
   )
 }

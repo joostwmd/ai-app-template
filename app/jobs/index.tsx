@@ -30,14 +30,14 @@ const Page: React.FC = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#000" }}>
-      <Header text="" />
+      <Header text="Your Images" />
       {jobs.length > 0 ? (
         <ScrollView
           contentContainerStyle={[
             {
               backgroundColor: BLACK,
               alignItems: "center",
-              marginTop: 48,
+
               paddingBottom: 196,
             },
             { flexDirection: "row", flexWrap: "wrap" },

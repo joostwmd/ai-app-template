@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native"
 
 export const BLACK = "#000"
 export const WHITE = "#fff"
-const GRAY = "#666666"
+export const GRAY = "#666666"
 
 const baseHeading = {
   fontFamily: "Pricedown",
